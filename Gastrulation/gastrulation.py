@@ -307,15 +307,6 @@ class TimeStepper:
         idx = self.idx
         d = self.d
 
-        k, n_update = self.update_k(self.true_neighbour_max, tstep)
-        if tstep % n_update == 0 or self.idx is None or numdiv>0:
-            d, idx = find_potential_neighbours(x.detach().to("cpu").numpy(), k=k)
-            self.idx = torch.tensor(idx, dtype=torch.long, device=device)
-            self.d = torch.tensor(d, dtype=torch.float, device=device)
-        idx = self.idx
-        d = self.d
-
-
         # Normalise p, q
         with torch.no_grad():
             p /= torch.sqrt(torch.sum(p ** 2, dim=1))[:, None]
